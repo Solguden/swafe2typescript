@@ -54,7 +54,7 @@ export function Login () {
   }
 
   function setManager(){
-    setState({ email: "boss@fitness.moon", password: "asdfQWEaQR" });
+    setState({ email: "boss@fitness.moon", password: "asdfQWER" });
   }
 
   function setTrainer(){
