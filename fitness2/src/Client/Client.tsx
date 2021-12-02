@@ -39,7 +39,7 @@ export function Client () {
   }, []);
 
   function setRepsOrTime(exercise: Exercise) {
-    if (exercise.time !== "string") {
+    if (exercise.time !== "string" && exercise.time !== '') {
       return exercise.time;
     }
     else {
