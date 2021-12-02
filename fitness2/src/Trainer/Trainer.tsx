@@ -4,16 +4,15 @@ import { handleResponse } from '../Login/handle-response';
 import { authHeader } from '../Login/auth-header'
 import { CreateClient } from "./CreateClient";
 import { CreateWorkoutProgram } from "./CreateWorkoutProgram";
+import CSS from 'csstype';
+import { Workouts, Exercise } from "../Client/Client";
 // import Spinner from "./ui/Spinner";
 // import axios from 'axios';
 interface UserState{
     userId?:string;
     firstName?:string;
 }
-interface Workouts{
-    id?:string;
-    title?:string;
-}
+
 export function Trainer() {
 
   // const [users, setUsers] = useState({ hits: [] });
@@ -49,14 +48,17 @@ export function Trainer() {
       getUsers();
     }, []);
 
-    const initialWorkouts:Workouts[] = [{ id: '', title: '' }];
-    const [workouts, setWorkouts] = useState(initialWorkouts);
+    const initialWorkouts: Workouts[] = [{workoutProgramId: '', name: '',
+  exercises: [{exerciseId: '', name: '', description: '', sets: 0, repetitions: 0, time: ''}]}];
+  const [workouts, setWorkouts] = useState(initialWorkouts);
+  const [selectedWorkout, setSelectedWorkout] = useState(initialWorkouts[0])
     useEffect(() => {
       async function getWorkouts() {
         const requestOptions:any = { method: 'GET', headers: authHeader() };
         const workoutresp = await fetch("https://afe2021fitness.azurewebsites.net/api/WorkoutPrograms/trainer", requestOptions).then(handleResponse);
         const workoutdata = await (workoutresp);
         setWorkouts(workoutdata);
+        setSelectedWorkout(workoutdata[0]);
       }
       getWorkouts();
     }, []);
@@ -66,24 +68,74 @@ export function Trainer() {
     return <p>Trainer (Found nothing/Loading)</p>
     //<Spinner />
   }
+
+  function setRepsOrTime(exercise: Exercise) {
+    if (exercise.time !== "string") {
+      return exercise.time;
+    }
+    else {
+      return exercise.repetitions;
+    }
+  }
+
+  function setWorkout(workout: Workouts) {
+    setSelectedWorkout(workout);
+  }
+
+  const wrapper:CSS.Properties = {
+    backgroundColor:'lightgrey',
+    paddingBottom:'10px',
+    marginBottom:'20px'
+};
+
   return (
     // <p>users</p>
     <main>
         <CreateClient></CreateClient>
         <CreateWorkoutProgram></CreateWorkoutProgram>
-      {/* <p>Clients</p>
-      <ul>
-        {users.map(({userId,firstName}) => 
-          <li key={userId}>{firstName}</li>
-        )}
-      </ul>
-      <button type="button">Add new Client</button>
+      <div style={wrapper}>
+        <p>Clients</p>
+        <ul>
+          {users.map(({userId,firstName}) => 
+            <li key={userId}>{firstName}</li>
+          )}
+        </ul>
+      </div>
+      <div style={wrapper}>
       <p>Workouts</p>
-      <ul>
-        {workouts.map(({id,title})=> (
-          <li key={id}>{title}</li>
-        ))}
-      </ul> */}
+        <ul>
+          {workouts.map(workout => {
+            return(
+              <li onClick={() => setWorkout(workout)}>{workout.name}</li>
+            );
+          })}
+        </ul>
+      </div>
+      <div style={wrapper}>
+        <p>{selectedWorkout.name}</p>
+        <table className="table">
+          <thead>
+            <tr>
+              <th>Exercise</th>
+              <th>Description</th>
+              <th>Set</th>
+              <th>Reps/time</th>
+            </tr>
+          </thead>
+          <tbody>
+            {selectedWorkout.exercises.map(exercise => {
+              return (
+                <tr>
+                  <td>{exercise.name}</td>
+                  <td>{exercise.description}</td>
+                  <td>{exercise.sets}</td>
+                  <td>{setRepsOrTime(exercise)}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
     </main>
   );
 }
