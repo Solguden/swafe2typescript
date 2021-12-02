@@ -1,4 +1,4 @@
-import { authenticationService } from './LoginService'
+import { authenticationService } from '../util/LoginService'
 // Inspired by https://jasonwatmore.com/post/2019/04/06/react-jwt-authentication-tutorial-example#user-service-js
 export function handleResponse(response:any) {
     return response.text().then((text:any) => {

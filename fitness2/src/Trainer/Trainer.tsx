@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { getData } from "../util/api";
 import { handleResponse } from '../Login/handle-response';
 import { authHeader } from '../Login/auth-header'
+import { CreateClient } from "./CreateClient";
+import { CreateWorkoutProgram } from "./CreateWorkoutProgram";
 // import Spinner from "./ui/Spinner";
 // import axios from 'axios';
 interface UserState{
@@ -67,7 +69,9 @@ export function Trainer() {
   return (
     // <p>users</p>
     <main>
-      <p>Clients</p>
+        <CreateClient></CreateClient>
+        <CreateWorkoutProgram></CreateWorkoutProgram>
+      {/* <p>Clients</p>
       <ul>
         {users.map(({userId,firstName}) => 
           <li key={userId}>{firstName}</li>
@@ -79,7 +83,7 @@ export function Trainer() {
         {workouts.map(({id,title})=> (
           <li key={id}>{title}</li>
         ))}
-      </ul>
+      </ul> */}
     </main>
   );
 }

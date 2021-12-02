@@ -5,7 +5,7 @@ export function authHeader() {
     const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
     console.log(currentUser)
     if (currentUser && currentUser.jwt) {
-        return { Authorization: `Bearer ${currentUser.jwt}` || '{}' };
+        return { 'Content-Type': 'application/json', Authorization: `Bearer ${currentUser.jwt}` || '{}' };
     } else {
         return {};
     }

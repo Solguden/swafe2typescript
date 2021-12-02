@@ -1,7 +1,7 @@
 import { render } from "@testing-library/react";
 import { useContext, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { authenticationService } from '../Login/LoginService'
+import { authenticationService } from '../util/LoginService'
 import {useLoginContext}from '../Login/LoginProvider'
 import CSS from 'csstype';
 
@@ -33,7 +33,7 @@ export function Navbar() {
     return (
         
         <nav style={navStyle}>   
-            {!loggedIn.loggedIn && 
+            {
                 <a>
                     <NavLink to="/" >
                         Home
@@ -65,16 +65,12 @@ export function Navbar() {
             
             {
                 !loggedIn.loggedIn && 
-                <a>
-                    <button onClick={login}>Login</button>
-                </a>
+                <button onClick={login}>Login</button>
             }
         
             {
                 loggedIn.loggedIn && 
-                <a>
-                    <button onClick={logout}>Logout</button>
-                </a>
+                <button onClick={logout}>Logout</button>
             }
         </nav>
     );
