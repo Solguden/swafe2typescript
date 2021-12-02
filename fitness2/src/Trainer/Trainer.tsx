@@ -6,6 +6,7 @@ import { CreateClient } from "./CreateClient";
 import { CreateWorkoutProgram } from "./CreateWorkoutProgram";
 import CSS from 'csstype';
 import { Workouts, Exercise } from "../Client/Client";
+import { AddExercise } from "./AddExercise";
 // import Spinner from "./ui/Spinner";
 // import axios from 'axios';
 interface UserState{
@@ -91,8 +92,9 @@ export function Trainer() {
   return (
     // <p>users</p>
     <main>
-        <CreateClient></CreateClient>
-        <CreateWorkoutProgram></CreateWorkoutProgram>
+      <CreateClient></CreateClient>
+      <CreateWorkoutProgram></CreateWorkoutProgram>
+      <AddExercise></AddExercise>
       <div style={wrapper}>
         <p>Clients</p>
         <ul>
@@ -102,7 +104,7 @@ export function Trainer() {
         </ul>
       </div>
       <div style={wrapper}>
-      <p>Workouts</p>
+        <p>Workouts</p>
         <ul>
           {workouts.map(workout => {
             return(

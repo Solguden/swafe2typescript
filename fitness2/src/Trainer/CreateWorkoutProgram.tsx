@@ -14,11 +14,9 @@ export function CreateWorkoutProgram () {
         description: '',
         clientId:'',
         exercises: [
-            {
-                exerciseId: '', name: '', description: '', sets: 0, repetitions: 0, time: ''
-            }
         ]
     };
+    const [workouts, setWorkouts] = useState(initialWorkouts);
 
     const initialState:User[] = [{ email: '', password: '', 
         firstName:'', lastName:'',
@@ -26,7 +24,6 @@ export function CreateWorkoutProgram () {
     }];
     const [users, setUsers] = useState(initialState);
 
-    const [workouts, setWorkouts] = useState(initialWorkouts);
     function handleInputChange(event:any) {
         const target = event.target;
         const value = target.value;
@@ -56,13 +53,13 @@ export function CreateWorkoutProgram () {
 
     function handleSubmit(event:any) {
     event.preventDefault();
-    // let result = userService.createUser(workouts).then( res => {
-    //     alert('Following user has been created ' + JSON.stringify(result));
-    //     setState(initialState)
-    // })
-    // .catch(error => {
-    //     alert('Something went wrong ' + JSON.stringify(error));
-    // }) 
+    userService.createWorkoutProgram(workouts).then( res => {
+        alert('Following user has been created ' + JSON.stringify(res));
+        setWorkouts(initialWorkouts)
+    })
+    .catch(error => {
+        alert('Something went wrong ' + JSON.stringify(error));
+    }) 
     }
     const wrapper:CSS.Properties = {
         backgroundColor:'lightgrey',
@@ -104,6 +101,7 @@ export function CreateWorkoutProgram () {
                 <label>
                 Select Client
                 <select style={select} name="clientId" onChange={handleInputChange}>
+                    <option disabled selected></option>
                     {users.map(MakeItem)}
                 </select>
                 <br/>
