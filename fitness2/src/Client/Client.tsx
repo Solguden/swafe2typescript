@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { handleResponse } from '../Login/handle-response';
 import { authHeader } from '../Login/auth-header'
 import { table } from "console";
+import './Client.css';
 
 interface Exercise{
   exerciseId?:string;
@@ -19,6 +20,8 @@ interface Workouts{
 
 export function Client () {
 
+  let allWorkouts: Workouts[];
+
   const initialWorkouts: Workouts[] = [{workoutProgramId: '', name: '',
   exercises: [{exerciseId: '', name: '', description: '', sets: 0, repetitions: 0, time: ''}]}];
   const [workouts, setWorkouts] = useState(initialWorkouts);
@@ -32,30 +35,63 @@ export function Client () {
     getWorkouts();
   }, []);
 
+  function setRepsOrTime(exercise: Exercise) {
+    if (exercise.time !== "string") {
+      return exercise.time;
+    }
+    else {
+      return exercise.repetitions;
+    }
+  }
+
+  function setWorkout(workout: Workouts) {
+    const tempWorkouts: Workouts[] = [workout];
+    setWorkouts(tempWorkouts);
+  }
+
   if (workouts === null || workouts === undefined) {
     return <p>Workout not found</p>
   }
 
+  if (workouts.length > 1) {
+    return (
+      <main>
+        <p>Workouts</p>
+        <ul>
+          {workouts.map(workout => {
+            return(
+              <li onClick={() => setWorkout(workout)}>{workout.name}</li>
+            );
+          })}
+        </ul>
+      </main>
+    )
+  }
+
   return (
     <main>
-      <table>
-        <tr>
-          <th>Exercise</th>
-          <th>Description</th>
-          <th>Set</th>
-          <th>Reps/time</th>
-        </tr>
-        <tr>
-          {workouts[0].exercises.map(exercise => (
-            <div>
-              <td>{exercise.name}</td>
-              <td>{exercise.description}</td>
-              <td>{exercise.sets}</td>
-              <td>{exercise.repetitions}</td>
-            </div>
-          ))}
-        </tr>
-        </table>
+      <table className="table">
+        <thead>
+          <tr>
+            <th>Exercise</th>
+            <th>Description</th>
+            <th>Set</th>
+            <th>Reps/time</th>
+          </tr>
+        </thead>
+        <tbody>
+          {workouts[0].exercises.map(exercise => {
+            return (
+              <tr>
+                <td>{exercise.name}</td>
+                <td>{exercise.description}</td>
+                <td>{exercise.sets}</td>
+                <td>{setRepsOrTime(exercise)}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
     </main>
   );
 }
