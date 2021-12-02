@@ -114,7 +114,7 @@ export function CreateWorkoutProgram () {
                     onChange={handleInputChange} />
                 </label>
                 <br/>
-                <input type="submit" value="Create Trainer" />
+                <input type="submit" value="Create Workout Program" />
             </form>
         </main> 
     );
