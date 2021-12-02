@@ -11,15 +11,18 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-
-nav{
+/* 
+/* nav{
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   background-color: #FFE11D;
   height: 40px;
   
-  /* background-color: #ffeec3;
+  background-color: #ffeec3;
   background-color: #844d38;
-  background-color:#302E3c ; */
+  background-color:#302E3c ; 
+} */ 
+nav a {
+  margin-bottom: 23px;
 }

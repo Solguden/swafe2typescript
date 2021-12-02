@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { handleResponse } from './handle-response';
 import { authHeader } from './auth-header'
+import { useLoginContext } from "./LoginProvider";
+import { authenticationService, User } from "./LoginService";
+import { useNavigate } from "react-router-dom";
 
 export function logout(){
   localStorage.removeItem('currentUser');
@@ -13,45 +16,58 @@ interface UserState{
 
 export function Login () {
   const initialState:UserState = { email: '', password: '' };
-//   const initialState = (email:string,password:string)
   const [state, setState] = useState(initialState);
+  const navigate = useNavigate();
+  const [loggedIn,setLogin] = useLoginContext();
+
 
   function handleChangeEmail(event:any) {
     console.log(event.target.value)
-    setState({ email: event.target.value });
+    setState({...state, email: event.target.value });
   }
 
   function handleChangePassword(event:any) {
     console.log(event.target.value)
-    setState({ password: event.target.value });
+    setState({...state, password: event.target.value });
   }
 
   function handleSubmit(event:any) {
     const email = state.email
     const password = state.password
+    console.log(email,password)
     event.preventDefault();
     
-    const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password })
-    };
-    return fetch(`https://afe2021fitness.azurewebsites.net/api/Users/login`, requestOptions)
-      // .then(resp => resp.json())
-      .then(handleResponse)
-      .then(user => {
-          // store user details and jwt token in local storage to keep user logged in between page refreshes
-          localStorage.setItem('currentUser', JSON.stringify(user));
-          console.log(user)
-          return user;
-      });
+    authenticationService.login(email || '',password || '')
+    .then( loginResult =>{
+      setLogin({...loggedIn, loggedIn:true, accountType:loginResult?.accountType})   
+      console.log("test",loginResult?.accountType) 
+      redirect(loginResult?.accountType || '')
+    })
+    .catch(error => {
+      console.log(error)
+    })
+    
   }    
 
-  function getAll() {
-    // let requestOptions: HeadersInit = new Headers();
-    let requestOptions: any = { method: 'GET', headers: authHeader()};
-    return fetch(`https://afe2021fitness.azurewebsites.net/api/Users`, requestOptions).then(handleResponse);
+  function redirect(accountType:string){
+    console.log(accountType)
+    switch(accountType){
+      case 'Manager':
+        navigate('/manager')
+        break;
+      case 'Client':
+        navigate('/client')
+        break;
+      case 'PersonalTrainer':
+        navigate('/trainer')
+        break;
+      default:
+        navigate('/login')
+        break
+    }
   }
+
+
 
   function setManager(){
     setState({ email: "boss@fitness.moon", password: "asdfQWER" });
@@ -85,7 +101,7 @@ export function Login () {
               <br/>
               <input type="submit" value="Login"></input>
           </form>
-          <button onClick={getAll}>Test</button>
+          {/* <button onClick={getAll}>Test</button> */}
           <button onClick={logout}>Logout</button>
         </div>
     </main>

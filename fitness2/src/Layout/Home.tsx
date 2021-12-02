@@ -1,7 +1,7 @@
 export function Home () {
     return (
       <main>
-        <p>Home!</p>
+        <p>Welcome to fitness app!</p>
       </main>
     );
   }
