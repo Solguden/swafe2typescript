@@ -3,7 +3,7 @@ import { handleResponse } from '../Login/handle-response';
 import { authHeader } from '../Login/auth-header'
 import { table } from "console";
 
-interface Exercise{
+export interface Exercise{
   exerciseId?:string;
   name?:string;
   description?:string;
@@ -11,10 +11,12 @@ interface Exercise{
   repetitions?:number;
   time?:string;
 }
-interface Workouts{
+export interface Workouts{
   workoutProgramId?:string;
   name?:string;
   exercises:Exercise[];
+  clientId?:string
+  description?:string
 }
 
 export function Client () {

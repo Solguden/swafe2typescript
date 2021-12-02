@@ -2,12 +2,8 @@ import { useState } from "react";
 import { handleResponse } from './handle-response';
 import { authHeader } from './auth-header'
 import { useLoginContext } from "./LoginProvider";
-import { authenticationService, User } from "./LoginService";
+import { authenticationService, User } from "../util/LoginService";
 import { useNavigate } from "react-router-dom";
-
-export function logout(){
-  localStorage.removeItem('currentUser');
-}
 
 interface UserState{
     email?:string;
@@ -39,7 +35,7 @@ export function Login () {
     
     authenticationService.login(email || '',password || '')
     .then( loginResult =>{
-      setLogin({...loggedIn, loggedIn:true, accountType:loginResult?.accountType})   
+      setLogin({...loggedIn, loggedIn:true, accountType:loginResult?.accountType,userId:loginResult?.userId})   
       console.log("test",loginResult?.accountType) 
       redirect(loginResult?.accountType || '')
     })
@@ -67,14 +63,12 @@ export function Login () {
     }
   }
 
-
-
   function setManager(){
     setState({ email: "boss@fitness.moon", password: "asdfQWER" });
   }
 
   function setTrainer(){
-    setState({ email: "m@fit", password: "aQ" });
+    setState({ email: "the@terminator.skynet", password: "skynet" });
   }
   function setClient(){
     setState({ email: "c1@fit", password: "aA" });
@@ -101,8 +95,6 @@ export function Login () {
               <br/>
               <input type="submit" value="Login"></input>
           </form>
-          {/* <button onClick={getAll}>Test</button> */}
-          <button onClick={logout}>Logout</button>
         </div>
     </main>
   );

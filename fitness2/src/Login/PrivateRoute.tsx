@@ -1,6 +1,6 @@
 import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
-import { authenticationService } from './LoginService'
+import { authenticationService } from '../util/LoginService'
 
 //Inspired by:
 //https://stackoverflow.com/questions/69864165/error-privateroute-is-not-a-route-component-all-component-children-of-rou

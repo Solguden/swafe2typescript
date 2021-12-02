@@ -1,5 +1,5 @@
 import React, { Children, FC, useContext, useState } from "react";
-import { User } from "./LoginService";
+import { User } from "../util/LoginService";
 
 interface ILoginContext {
     loggedIn:boolean,
