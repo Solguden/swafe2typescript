@@ -4,6 +4,7 @@ import { handleResponse } from '../Login/handle-response';
 import { authHeader } from '../Login/auth-header'
 import { CreateClient } from "./CreateClient";
 import { CreateWorkoutProgram } from "./CreateWorkoutProgram";
+import { AddExercise } from "./AddExercise";
 // import Spinner from "./ui/Spinner";
 // import axios from 'axios';
 interface UserState{
@@ -71,6 +72,7 @@ export function Trainer() {
     <main>
         <CreateClient></CreateClient>
         <CreateWorkoutProgram></CreateWorkoutProgram>
+        <AddExercise></AddExercise>
       {/* <p>Clients</p>
       <ul>
         {users.map(({userId,firstName}) => 
